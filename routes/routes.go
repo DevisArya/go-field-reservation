@@ -5,14 +5,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewRouter(e *echo.Echo, userHandler handler.UserHandler) *echo.Echo {
+func NewRouter(e *echo.Echo, AppHandler *handler.AppHandler) {
 
-	g_user := e.Group("/user")
-	g_user.POST("", userHandler.Create)
-	g_user.PUT("/:id", userHandler.Update)
-	g_user.DELETE("/:id", userHandler.Delete)
-	g_user.GET("/:id", userHandler.FindById)
-	g_user.GET("s", userHandler.FindAll)
+	// Regist All Routes
 
-	return e
+	RegisterUserRoutes(e, AppHandler.UserHandler)
+	RegisterFieldRoutes(e, AppHandler.FieldHandler)
+
 }

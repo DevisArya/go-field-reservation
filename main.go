@@ -1,11 +1,11 @@
 package main
 
 import (
+	"log"
+
+	"github.com/DevisArya/reservasi_lapangan/app"
 	"github.com/DevisArya/reservasi_lapangan/config"
-	"github.com/DevisArya/reservasi_lapangan/handler"
-	"github.com/DevisArya/reservasi_lapangan/repository"
 	"github.com/DevisArya/reservasi_lapangan/routes"
-	"github.com/DevisArya/reservasi_lapangan/service"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
@@ -16,11 +16,11 @@ func main() {
 	validate := validator.New()
 	e := echo.New()
 
-	userRepository := repository.NewUserRepository()
-	userService := service.NewUserService(userRepository, db, validate)
-	userHandler := handler.NewUserHandler(userService)
+	appContainer := app.NewAppContainer(db, validate)
 
-	route := routes.NewRouter(e, userHandler)
+	routes.NewRouter(e, appContainer)
 
-	route.Logger.Fatal(route.Start(":8080"))
+	if err := e.Start(":8080"); err != nil {
+		log.Fatalf("failed to start server: %v", err)
+	}
 }

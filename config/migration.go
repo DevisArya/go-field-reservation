@@ -10,6 +10,7 @@ func InitialMigration(db *gorm.DB) {
 
 	err := db.AutoMigrate(
 		&models.User{},
+		&models.Field{},
 	)
 
 	helper.PanicIfError(err)
