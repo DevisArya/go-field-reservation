@@ -4,4 +4,5 @@ type AppHandler struct {
 	UserHandler
 	FieldHandler
 	OperatorHandler
+	ScheduleHandler
 }
