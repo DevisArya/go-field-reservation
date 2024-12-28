@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/helper"
 	"github.com/DevisArya/reservasi_lapangan/models"
-	"github.com/DevisArya/reservasi_lapangan/models/web"
 	"github.com/DevisArya/reservasi_lapangan/service"
 	"github.com/labstack/echo/v4"
 )
@@ -23,7 +23,7 @@ func NewFieldHandler(FieldService service.FieldService) FieldHandler {
 
 // Create implements FieldHandler
 func (handler *FieldHandlerImpl) Create(c echo.Context) error {
-	var req web.FieldReqRes
+	var req dto.FieldReqRes
 
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(

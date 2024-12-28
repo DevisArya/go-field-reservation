@@ -1,4 +1,4 @@
-package web
+package dto
 
 type FieldReqRes struct {
 	Name  string `json:"Name" form:"Name" validate:"required"`

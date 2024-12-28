@@ -11,5 +11,5 @@ func NewRouter(e *echo.Echo, AppHandler *handler.AppHandler) {
 
 	RegisterUserRoutes(e, AppHandler.UserHandler)
 	RegisterFieldRoutes(e, AppHandler.FieldHandler)
-
+	RegisterFieldRoutes(e, AppHandler.OperatorHandler)
 }

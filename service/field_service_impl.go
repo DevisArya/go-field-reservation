@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
+	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/helper"
 	"github.com/DevisArya/reservasi_lapangan/models"
-	"github.com/DevisArya/reservasi_lapangan/models/web"
 	"github.com/DevisArya/reservasi_lapangan/repository"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
@@ -26,7 +26,7 @@ func NewFieldService(FieldRepository repository.FieldRepository, DB *gorm.DB, va
 }
 
 // Save implements FieldService
-func (service *FieldServiceImpl) Save(ctx context.Context, request *web.FieldReqRes) (*web.FieldReqRes, error) {
+func (service *FieldServiceImpl) Save(ctx context.Context, request *dto.FieldReqRes) (*dto.FieldReqRes, error) {
 
 	if err := service.validate.Struct(request); err != nil {
 		return nil, err
