@@ -19,20 +19,24 @@ func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHand
 	userRepository := repository.NewUserRepository()
 	operatorRepository := repository.NewOperatorRepository()
 	fieldRepository := repository.NewFieldRepository()
+	scheduleRepository := repository.NewScheduleRepository()
 
 	//inisialisasi services
 	userService := service.NewUserService(userRepository, db, validate)
 	operatorService := service.NewOperatorService(operatorRepository, db, validate)
 	fieldService := service.NewFieldService(fieldRepository, db, validate)
+	scheduleService := service.NewScheduleService(scheduleRepository, db, validate)
 
 	//inisialisasi handlers
 	userHandler := handler.NewUserHandler(userService)
 	operatorHandler := handler.NewOperatorHandler(operatorService)
 	fieldHandler := handler.NewFieldHandler(fieldService)
+	scheduleHandler := handler.NewScheduleHandler(scheduleService)
 
 	return &handler.AppHandler{
 		UserHandler:     userHandler,
 		OperatorHandler: operatorHandler,
 		FieldHandler:    fieldHandler,
+		ScheduleHandler: scheduleHandler,
 	}
 }
