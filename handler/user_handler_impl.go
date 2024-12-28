@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/models"
-	"github.com/DevisArya/reservasi_lapangan/models/web"
 	"github.com/DevisArya/reservasi_lapangan/service"
 	"github.com/labstack/echo/v4"
 )
@@ -22,7 +22,7 @@ func NewUserHandler(userService service.UserService) UserHandler {
 
 // Create implements UserHandler
 func (handler *UserHandlerImpl) Create(c echo.Context) error {
-	var req web.UserCreateRequest
+	var req dto.UserCreateRequest
 
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request payload")
@@ -37,7 +37,7 @@ func (handler *UserHandlerImpl) Create(c echo.Context) error {
 
 // Update implements UserHandler
 func (handler *UserHandlerImpl) Update(c echo.Context) error {
-	var req web.UserUpdateRequest
+	var req dto.UserUpdateRequest
 
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

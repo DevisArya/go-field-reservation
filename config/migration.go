@@ -11,6 +11,7 @@ func InitialMigration(db *gorm.DB) {
 	err := db.AutoMigrate(
 		&models.User{},
 		&models.Field{},
+		&models.Operator{},
 	)
 
 	helper.PanicIfError(err)

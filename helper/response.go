@@ -1,9 +1,9 @@
 package helper
 
-import "github.com/DevisArya/reservasi_lapangan/models/web"
+import "github.com/DevisArya/reservasi_lapangan/dto"
 
-func NewResponse(code int, msg string, data interface{}) web.WebResponse {
-	return web.WebResponse{
+func NewResponse(code int, msg string, data interface{}) dto.WebResponse {
+	return dto.WebResponse{
 		Code:    code,
 		Message: msg,
 		Data:    data,

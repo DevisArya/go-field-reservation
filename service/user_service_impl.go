@@ -3,9 +3,9 @@ package service
 import (
 	"context"
 
+	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/helper"
 	"github.com/DevisArya/reservasi_lapangan/models"
-	"github.com/DevisArya/reservasi_lapangan/models/web"
 	"github.com/DevisArya/reservasi_lapangan/repository"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
@@ -26,7 +26,7 @@ func NewUserService(userRepository repository.UserRepository, DB *gorm.DB, valid
 }
 
 // Create implements UserService
-func (service *UserServiceImpl) Create(ctx context.Context, request *web.UserCreateRequest) error {
+func (service *UserServiceImpl) Create(ctx context.Context, request *dto.UserCreateRequest) error {
 	if err := service.validate.Struct(request); err != nil {
 		return err
 	}
