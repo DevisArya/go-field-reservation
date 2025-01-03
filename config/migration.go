@@ -13,6 +13,8 @@ func InitialMigration(db *gorm.DB) {
 		&models.Field{},
 		&models.Operator{},
 		&models.Schedule{},
+		&models.Transaction{},
+		&models.TransactionDetail{},
 	)
 
 	helper.PanicIfError(err)

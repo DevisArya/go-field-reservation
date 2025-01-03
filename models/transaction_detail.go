@@ -1,7 +1,9 @@
 package models
 
 type TransactionDetail struct {
-	Id         uint
-	ScheduleId uint
-	Price      int64
+	Id            uint `gorm:"primary_key"`
+	TransactionId uint
+	ScheduleId    uint
+	Name          string
+	Price         int64
 }

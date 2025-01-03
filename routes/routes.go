@@ -13,4 +13,5 @@ func NewRouter(e *echo.Echo, AppHandler *handler.AppHandler) {
 	RegisterFieldRoutes(e, AppHandler.FieldHandler)
 	RegisterOperatorRoutes(e, AppHandler.OperatorHandler)
 	RegisterScheduleRoutes(e, AppHandler.ScheduleHandler)
+	RegisterTransactionRoutes(e, AppHandler.TransactionHandler)
 }
