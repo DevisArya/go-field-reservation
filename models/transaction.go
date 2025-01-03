@@ -6,11 +6,14 @@ import (
 
 type Transaction struct {
 	Id                uint `gorm:"primary_key"`
-	UserId            uint `json:"UserId " form:"UserId" validate:"required"`
+	UserId            uint
 	PaymentUrl        string
+	OrderId           string
+	TotalPrice        int64
+	TransactionTime   time.Time
+	PaymentType       string
 	PaymentStatus     string
-	TotalPrice        uint64
-	CreatedAt         time.Time
-	CanceledReason    string
-	TransactionDetail string
+	SettlementTime    time.Time
+	FraudStatus       string
+	TransactionDetail []TransactionDetail `gorm:"foreignKey:TransactionId"`
 }

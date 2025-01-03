@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/go-playground/validator/v10 v10.23.0
 	github.com/labstack/echo/v4 v4.13.0
+	github.com/midtrans/midtrans-go v1.3.8
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
