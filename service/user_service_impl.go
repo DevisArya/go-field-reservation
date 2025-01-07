@@ -7,6 +7,7 @@ import (
 	"github.com/DevisArya/reservasi_lapangan/helper"
 	"github.com/DevisArya/reservasi_lapangan/models"
 	"github.com/DevisArya/reservasi_lapangan/repository"
+	"github.com/DevisArya/reservasi_lapangan/utils"
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
@@ -34,10 +35,17 @@ func (service *UserServiceImpl) Create(ctx context.Context, request *dto.UserCre
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
+	//hash password
+	hashedPassword, err := utils.HashPassword(request.Password)
+	if err != nil {
+		return err
+	}
+
 	userData := models.User{
 		Email:    request.Email,
 		Name:     request.Name,
-		Password: request.Password,
+		Password: hashedPassword,
+		Role:     request.Role,
 	}
 
 	if err := service.UserRepository.Save(ctx, tx, &userData); err != nil {
@@ -57,6 +65,15 @@ func (service *UserServiceImpl) Update(ctx context.Context, request *models.User
 
 	if _, err := service.UserRepository.FindById(ctx, tx, request.Id); err != nil {
 		return err
+	}
+
+	// hash new password
+	if request.Password != "" {
+		hashedPassword, err := utils.HashPassword(request.Password)
+		if err != nil {
+			return err
+		}
+		request.Password = hashedPassword
 	}
 
 	if err := service.UserRepository.Update(ctx, tx, request); err != nil {

@@ -28,7 +28,7 @@ func NewTransactionService(transactionRepository repository.TransactionRepositor
 }
 
 // Save implements TransactionService
-func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.TransactionReq) (*dto.TransactionCreateResponse, error) {
+func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.TransactionReq, userId uint) (*dto.TransactionCreateResponse, error) {
 
 	if err := service.validate.Struct(req); err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.Transa
 
 	// prepare a new transaction object
 	newTransaction := models.Transaction{
-		UserId: 1,
+		UserId: userId,
 	}
 
 	var total int64

@@ -6,4 +6,5 @@ type AppHandler struct {
 	OperatorHandler
 	ScheduleHandler
 	TransactionHandler
+	AuthHandler
 }

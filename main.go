@@ -7,10 +7,12 @@ import (
 	"github.com/DevisArya/reservasi_lapangan/config"
 	"github.com/DevisArya/reservasi_lapangan/routes"
 	"github.com/go-playground/validator/v10"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
+	godotenv.Load(".env")
 	db := config.NewDB()
 	config.InitialMigration(db)
 	validate := validator.New()

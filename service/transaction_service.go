@@ -7,6 +7,6 @@ import (
 )
 
 type TransactionService interface {
-	Save(ctx context.Context, transactionData *dto.TransactionReq) (*dto.TransactionCreateResponse, error)
+	Save(ctx context.Context, transactionData *dto.TransactionReq, userId uint) (*dto.TransactionCreateResponse, error)
 	Update(ctx context.Context, transactionData *dto.MidtransRequest) error
 }

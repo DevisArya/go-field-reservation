@@ -6,6 +6,7 @@ import (
 	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/helper"
 	"github.com/DevisArya/reservasi_lapangan/service"
+	"github.com/DevisArya/reservasi_lapangan/utils"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,7 +31,14 @@ func (handler *TransactionHandlerImpl) Create(c echo.Context) error {
 			helper.NewResponse(http.StatusBadRequest, "Invalid request payload", nil))
 	}
 
-	res, err := handler.TransactionService.Save(c.Request().Context(), &transactionData)
+	userId, err := utils.GetIdFromClaims(c)
+	if err != nil {
+		return c.JSON(
+			http.StatusUnauthorized,
+			helper.NewResponse(http.StatusUnauthorized, err.Error(), nil))
+	}
+
+	res, err := handler.TransactionService.Save(c.Request().Context(), &transactionData, userId)
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,

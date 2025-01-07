@@ -8,11 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// type AppContainer struct {
-// 	UserHandler  handler.UserHandler
-// 	FieldHandler handler.FieldHandler
-// }
-
 func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHandler {
 
 	// inisialisasi repositories
@@ -21,6 +16,7 @@ func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHand
 	fieldRepository := repository.NewFieldRepository()
 	scheduleRepository := repository.NewScheduleRepository()
 	transactionRepository := repository.NewTransactionRepository()
+	authRepository := repository.NewAuthRepository()
 
 	//inisialisasi services
 	userService := service.NewUserService(userRepository, db, validate)
@@ -28,6 +24,7 @@ func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHand
 	fieldService := service.NewFieldService(fieldRepository, db, validate)
 	scheduleService := service.NewScheduleService(scheduleRepository, db, validate)
 	transactionService := service.NewTransactionService(transactionRepository, db, validate)
+	authService := service.NewAuthService(authRepository, db, validate)
 
 	//inisialisasi handlers
 	userHandler := handler.NewUserHandler(userService)
@@ -35,6 +32,7 @@ func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHand
 	fieldHandler := handler.NewFieldHandler(fieldService)
 	scheduleHandler := handler.NewScheduleHandler(scheduleService)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
+	authHandler := handler.NewAuthHandler(authService)
 
 	return &handler.AppHandler{
 		UserHandler:        userHandler,
@@ -42,5 +40,6 @@ func NewAppContainer(db *gorm.DB, validate *validator.Validate) *handler.AppHand
 		FieldHandler:       fieldHandler,
 		ScheduleHandler:    scheduleHandler,
 		TransactionHandler: transactionHandler,
+		AuthHandler:        authHandler,
 	}
 }
