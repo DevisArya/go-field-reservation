@@ -3,7 +3,6 @@ package utils
 import (
 	"errors"
 	"os"
-	"strconv"
 
 	"github.com/DevisArya/reservasi_lapangan/models"
 	"github.com/midtrans/midtrans-go"
@@ -25,14 +24,15 @@ func CreateMidtransUrl(transaction *models.Transaction) (string, error) {
 		item := midtrans.ItemDetails{
 			Name:  val.Name,
 			Price: val.Price,
+			Qty:   1,
 		}
 		items = append(items, item)
 	}
 
 	req := &snap.Request{
 		TransactionDetails: midtrans.TransactionDetails{
-			OrderID:  strconv.FormatUint(uint64(transaction.Id), 10),
-			GrossAmt: int64(transaction.TotalPrice),
+			OrderID:  transaction.TransactionId,
+			GrossAmt: transaction.TotalPrice,
 		},
 		Items: &items,
 	}

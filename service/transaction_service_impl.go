@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"errors"
+	"strconv"
+	"time"
 
 	"github.com/DevisArya/reservasi_lapangan/dto"
 	"github.com/DevisArya/reservasi_lapangan/helper"
@@ -37,9 +39,13 @@ func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.Transa
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
+	transId := "eco" + strconv.FormatUint(uint64(userId), 10) + time.Now().UTC().Format("2006010215040105")
 	// prepare a new transaction object
 	newTransaction := models.Transaction{
-		UserId: userId,
+		PaymentStatus:   "unpaid",
+		TransactionId:   transId,
+		UserId:          userId,
+		TransactionTime: time.Now(),
 	}
 
 	var total int64
@@ -48,6 +54,7 @@ func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.Transa
 		newTransaction.TransactionDetail = append(newTransaction.TransactionDetail, models.TransactionDetail{
 			ScheduleId: detail.ScheduleId,
 			Price:      detail.Price,
+			Name:       detail.Name,
 		})
 
 		total += detail.Price
@@ -70,7 +77,7 @@ func (service *TransactionServiceImpl) Save(ctx context.Context, req *dto.Transa
 
 	// prepare response for the API
 	res := dto.TransactionCreateResponse{
-		Id:            createdData.Id,
+		TransactionId: createdData.TransactionId,
 		PaymentStatus: createdData.PaymentStatus,
 		PaymentUrl:    createdData.PaymentUrl,
 	}
@@ -84,7 +91,7 @@ func (service *TransactionServiceImpl) Update(ctx context.Context, req *dto.Midt
 		return err
 	}
 
-	Key, err := utils.Hash512(req.OrderId, req.StatusCode, req.GrossAmount)
+	Key, err := utils.Hash512(req.TransactionId, req.StatusCode, req.GrossAmount)
 	if err != nil {
 		return err
 	}
@@ -96,29 +103,43 @@ func (service *TransactionServiceImpl) Update(ctx context.Context, req *dto.Midt
 	var status string
 
 	if req.FraudStatus == "deny" {
-		status = "Rejected"
+		status = "rejected"
 	} else {
 		if req.TransactionStatus == "capture" || req.TransactionStatus == "settlement" {
-			status = "Success"
+			status = "success"
 		} else if req.TransactionStatus == "deny" ||
 			req.TransactionStatus == "cancel" ||
 			req.TransactionStatus == "expire" ||
 			req.TransactionStatus == "failure" {
-			status = "Fail"
+			status = "fail"
 		} else if req.TransactionStatus == "pending" {
-			status = "Pending"
+			status = "pending"
 		}
 	}
 
 	tx := service.DB.Begin()
 	defer helper.CommitOrRollback(tx)
 
+	layout := "2006-01-02 15:04:05"
+
+	// Parsing string ke time.Time
+	transTime, err := time.Parse(layout, req.TransactionTime)
+	if err != nil {
+		return err
+	}
+	// Parsing string ke time.Time
+	settlementTime, err := time.Parse(layout, req.SettlementTime)
+	if err != nil {
+		return err
+	}
+
 	updatePayment := models.Transaction{
+		TransactionId:   req.TransactionId,
 		OrderId:         req.OrderId,
-		TransactionTime: req.TransactionTime,
+		TransactionTime: transTime,
 		PaymentStatus:   status,
 		PaymentType:     req.PaymentType,
-		SettlementTime:  req.SettlementTime,
+		SettlementTime:  settlementTime,
 		FraudStatus:     req.FraudStatus,
 	}
 
