@@ -25,9 +25,9 @@ func (*TransactionRepositoryImpl) Save(ctx context.Context, tx *gorm.DB, transac
 }
 
 // Update implements TransactionRepository
-func (*TransactionRepositoryImpl) Update(ctx context.Context, tx *gorm.DB, transactionData *models.Transaction) error {
+func (*TransactionRepositoryImpl) Update(ctx context.Context, tx *gorm.DB, updateData *models.Transaction) error {
 
-	if err := tx.WithContext(ctx).Updates(&transactionData).Error; err != nil {
+	if err := tx.WithContext(ctx).Where("transaction_id = ?", updateData.TransactionId).Updates(&updateData).Error; err != nil {
 		return err
 	}
 

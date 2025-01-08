@@ -10,5 +10,5 @@ func RegisterTransactionRoutes(e *echo.Echo, handler handler.TransactionHandler)
 
 	// route for transaction
 	e.POST("/transaction", handler.Create, mdlw.Auth([]string{"user"}, false))
-	e.PATCH("/transaction/update", handler.Create, mdlw.Auth([]string{"user"}, false))
+	e.POST("/transaction/update", handler.Update, mdlw.Auth([]string{"user"}, false))
 }

@@ -3,8 +3,9 @@ package dto
 import "time"
 
 type TransactionDetailReq struct {
-	ScheduleId uint  `json:"ScheduleId" form:"ScheduleId" validate:"required"`
-	Price      int64 `json:"Price" form:"Price" validate:"required"`
+	ScheduleId uint   `json:"ScheduleId" form:"ScheduleId" validate:"required"`
+	Name       string `json:"Name" form:"Name" validate:"required"`
+	Price      int64  `json:"Price" form:"Price" validate:"required"`
 }
 
 type TransactionReq struct {
@@ -12,7 +13,7 @@ type TransactionReq struct {
 }
 
 type TransactionCreateResponse struct {
-	Id            uint
+	TransactionId string
 	PaymentStatus string
 	PaymentUrl    string
 }

@@ -65,7 +65,7 @@ func (handler *TransactionHandlerImpl) Update(c echo.Context) error {
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,
-			helper.NewResponse(http.StatusInternalServerError, "Failed to update transaction", nil))
+			helper.NewResponse(http.StatusInternalServerError, err.Error(), nil))
 	}
 
 	return c.JSON(
