@@ -27,7 +27,7 @@ func (*OperatorRepositoryImpl) Save(ctx context.Context, tx *gorm.DB, operator *
 // Update implements OperatorRepository
 func (*OperatorRepositoryImpl) Update(ctx context.Context, tx *gorm.DB, operator *models.Operator) error {
 
-	if err := tx.WithContext(ctx).Updates(&operator).Error; err != nil {
+	if err := tx.WithContext(ctx).Where("id = ?", operator.Id).Updates(&operator).Error; err != nil {
 		return err
 	}
 

@@ -27,7 +27,7 @@ func (*ScheduleRepositoryImpl) Save(ctx context.Context, tx *gorm.DB, schedule *
 // Update implements ScheduleRepository
 func (*ScheduleRepositoryImpl) Update(ctx context.Context, tx *gorm.DB, schedule *models.Schedule) error {
 
-	if err := tx.WithContext(ctx).Updates(&schedule).Error; err != nil {
+	if err := tx.WithContext(ctx).Where("id = ?", schedule.Id).Updates(&schedule).Error; err != nil {
 		return err
 	}
 

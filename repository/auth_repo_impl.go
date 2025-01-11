@@ -19,7 +19,7 @@ func (*AuthRepositoryImpl) FindByEmail(ctx context.Context, tx *gorm.DB, email s
 
 	var user models.User
 
-	if err := tx.WithContext(ctx).Where("email = ?", email).First(&user).Error; err != nil {
+	if err := tx.WithContext(ctx).First(&user, email).Error; err != nil {
 		return nil, err
 	}
 

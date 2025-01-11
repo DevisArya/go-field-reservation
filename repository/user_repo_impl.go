@@ -27,7 +27,7 @@ func (*UserRepositoryImpl) Save(ctx context.Context, tx *gorm.DB, user *models.U
 // Update implements UserRepository
 func (*UserRepositoryImpl) Update(ctx context.Context, tx *gorm.DB, user *models.User) error {
 
-	if err := tx.WithContext(ctx).Updates(&user).Error; err != nil {
+	if err := tx.WithContext(ctx).Where("id = ?", user.Id).Updates(&user).Error; err != nil {
 		return err
 	}
 
