@@ -10,4 +10,5 @@ type Schedule struct {
 	FieldId    uint
 	Time       time.Time
 	Date       time.Time
+	Status     string
 }
